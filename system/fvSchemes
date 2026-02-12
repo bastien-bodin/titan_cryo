@@ -1,0 +1,71 @@
+/*----------------*- C++ -*----------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      fvSchemes;
+}
+// * * * * * * * * * * * * * * * * * * * //
+
+ddtSchemes
+{
+    // Euler is implicit and first order. 
+    // Most stable choice for multiphase VOF.
+    default         Euler;
+}
+
+gradSchemes
+{
+    // Standard central differencing
+    default         Gauss linear;
+}
+
+divSchemes
+{
+    default         none;
+
+    // Momentum convection
+    div(rhoPhi,U)   Gauss linearUpwind grad(U);
+
+    // Phase fraction (alpha)
+    // vanLeer is bounded to keep alpha between 0 and 1
+    div(phi,alpha)  Gauss vanLeer;
+
+    // Interface compression
+    div(phirb,alpha) Gauss linear;
+
+    // Viscous stress term
+    div(((rho*nuEff)*dev2(T(grad(U))))) Gauss linear;
+
+    // --- Necessary additions for compressibleInterFoam ---
+    
+    // Internal Energy (Temperature)
+    div(phi,e)      Gauss vanLeer;
+    
+    // Kinetic Energy
+    div(phi,K)      Gauss linear;
+
+    // Pressure work
+    div(phi,p)      Gauss linear;
+}
+
+laplacianSchemes
+{
+    // "corrected" handles non-orthogonal meshes (like terrain)
+    default         Gauss linear corrected;
+}
+
+interpolationSchemes
+{
+    default         linear;
+}
+
+snGradSchemes
+{
+    // Surface normal gradient
+    default         corrected;
+}
+
+// ************************************************************************* //
