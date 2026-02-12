@@ -1,0 +1,32 @@
+/*----------------*- C++ -*----------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    location    "system";
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * //
+
+application     compressibleInterFoam;
+
+startFrom       startTime;
+startTime       0;
+stopAt          endTime;
+endTime         10;
+deltaT          0.001; // Initial guess for time step
+writeControl    runTime;
+writeInterval   0.5;
+purgeWrite      0;
+writeFormat     ascii; // Readable text. Use 'binary' for large meshes.
+writePrecision  6;
+writeCompression off;
+timeFormat      general;
+timePrecision   6;
+runTimeModifiable yes;
+
+adjustTimeStep  yes;
+maxCo           0.5;  // Max Courant for flow
+maxAlphaCo      0.5;  // Max Courant for the phase interface (alpha)
+maxDeltaT       1;    // Never exceed 1s step size (safety cap)

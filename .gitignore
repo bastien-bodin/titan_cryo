@@ -1,0 +1,24 @@
+# --- OpenFOAM specific ---
+constant/polyMesh/
+polyMesh/
+
+# Ignore time directories (results)
+[1-9]*
+[0-9]*.*
+
+# But we want to KEEP the initial folder '0' or '0.orig'
+!0
+!0.orig/
+
+# Ignore processor folders (parallel runs)
+processor*/
+
+# Ignore post-processing data
+postProcessing/
+
+# --- Simulation temporary files ---
+*.log
+PyFoam*
+
+# --- System specifics ---
+.DS_Store
